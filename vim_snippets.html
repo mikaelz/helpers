@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>VIM snippets</title>
+	<style media="screen">
+		body {
+            margin: 0 auto;
+            width: 1200px;
+		}
+		.code {
+			background: #f1f1f1;
+			border: 1px solid #ccc;
+			font-size: 110%;
+			padding: 15px 5px 0 5px;
+			width: 95%;
+		}
+	</style>
+</head>
+<body>
+	<h1>VIM snippets</h1>
+	<h2>Search empty CSS selectors</h2>
+	<pre class="code">
+    /{\n\t\n}
+	</pre>
+	<br>
+	<h2>Search HTML attrib</h2>
+	<pre class="code">
+    href="[^>]*"
+	</pre>
+	<br>
+	<h2>Change filetype, syntax (htt, tpl, etc.)</h2>
+	<pre class="code">
+    :set ft=html.php
+	</pre>
+	<br>
+    <h2>Jumping long distance <a href="http://vimuniversity.com/samples/jumping-long-distances">http://vimuniversity.com/samples/jumping-long-distances</a></h2>
+    <pre class="code">
+    nG - jump to line n ("line 5, Go")
+    C-o - jump backwards ("out")
+    C-i - jump forwards ("in")
+    L - jump to bottom of screen ("low")
+    M - jump to middle of screen ("middle")
+    H - jump to top of screen ("high")
+    zt - put this line at the 't'op of the screen
+    zb - put this line at the 'b'ottom of the screen
+    zz - put this line at the middle of the screen
+    </pre>
+    <br>
+    <h2>Delete every line in the file that does match a pattern</h2>
+    <pre class="code">
+    :g/pattern/d
+    </pre>
+    <br>
+    <h2>Delete every line in the file that does not match a pattern</h2>
+    <pre class="code">
+    :v/pattern/d
+    </pre>
+    <br>
+    <h2>Replace 2 or more spaces - <a href="http://stackoverflow.com/a/3860542/289404">http://stackoverflow.com/a/3860542/289404</a></h2>
+    <pre class="code">
+    :s/ \{2,}/ /g
+    </pre>
+    <br>
+    <h2>Delete the Ctrl-M characters from the end of files <a href="http://www.danielmiessler.com/study/vim/#whitespaces">http://www.danielmiessler.com/study/vim/#whitespaces</a></h2>
+    <pre class="code">
+    :%s/\s\+$//
+    </pre>
+    <br>
+</body>
+</html>

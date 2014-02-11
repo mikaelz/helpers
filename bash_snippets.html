@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>BASH snippets</title>
+	<style media="screen">
+		body {
+            margin: 0 auto;
+            width: 1200px;
+		}
+		.code {
+			background: #f1f1f1;
+			border: 1px solid #ccc;
+			font-size: 110%;
+			padding: 15px 5px 0 5px;
+			width: 95%;
+		}
+	</style>
+</head>
+<body>
+	<h1>BASH snippets</h1>
+	<h2>Replace string old to new on every line in all php files of current directory</h2>
+	<pre class="code">
+sed -i '' 's/old/new/g' *.php;
+	</pre>
+	<br>
+	<h2>Recursively replace string old to new on every line in all php files</h2>
+    <pre class="code">
+find . -name *.php -exec sed -i '' 's/old/new/' {} \;
+    </pre>
+	<br>
+</body>
+</html>

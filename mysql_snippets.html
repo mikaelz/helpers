@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MySQL snippets</title>
+<style media="screen">
+    .wrap {
+        margin: 0 auto;
+        width: 1000px;
+    }
+    .code {
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        font-size: 110%;
+        padding: 15px 5px 0 5px;
+        width: 96%;
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>MySQL snippets</h1>
+    <br>
+    <h2>Insert test data</h2>
+    <pre class="code">
+DROP PROCEDURE insert_test_data;
+DELIMITER $$
+CREATE PROCEDURE prepare_data()
+BEGIN
+  DECLARE i INT DEFAULT 100;
+
+  WHILE i &lt; 100000 DO
+    INSERT INTO your_table (id) VALUES (i);
+    SET i = i + 1;
+  END WHILE;
+END$$
+DELIMITER ;
+CALL insert_test_data();
+    </pre>
+    <h2>Select duplicate rows</h2>
+    <pre class="code">
+SELECT item_id,attribute_id
+FROM mod_eshop_item_attributes
+GROUP BY item_id,attribute_id
+HAVING COUNT(*)&gt;1;
+    </pre>
+    <br>
+    <h2>Replace string in all records from a table</h2>
+    <pre class="code">
+UPDATE mod_wysiwyg SET content = REPLACE( content, '/dev', '' );
+    </pre>
+    <br>
+    <h2>Select a modified record set</h2>
+    <pre class="code">
+SELECT REPLACE( column_name, '/dev', '' ) FROM table_name;
+    </pre>
+    <br>
+    <h2>Order by specified set</h2>
+    <pre class="code">
+SELECT title FROM reality_type WHERE parent_id = 0 ORDER BY find_in_set(id, '5,3,2,1')
+    </pre>
+    <br>
+    <h2>Cloning rows in a mysql table</h2>
+    <pre class="code">
+INSERT INTO table (column1, column2,column3, column4)
+SELECT column1, 234, column4, NOW()
+FROM table
+WHERE id IN (6,7)
+    </pre>
+    <br>
+    <h2>Order count with concat order number</h2>
+    <pre class="code">
+SELECT 
+    COUNT(id) as count,
+    billing_full_name,
+    email,
+    GROUP_CONCAT(number SEPARATOR ',') as order_number
+FROM orders
+GROUP BY email;
+    </pre>
+    <h2>Concat column date into row</h2>
+    <pre class="code">
+SELECT GROUP_CONCAT(DATE_FORMAT(`start`, '%d.%m.%Y') SEPARATOR ', ') FROM mod_banner
+    </pre>
+    <br>
+    <h2>Add prefix test_ to table names</h2>
+    <pre class="code">
+SELECT
+    CONCAT('ALTER TABLE ',db,'.',tb,' RENAME ',db,'.',prfx,tb,';')
+FROM
+    (SELECT table_schema db,table_name tb
+     FROM information_schema.tables WHERE
+     table_schema in ('tvkarpaty')
+    ) A,
+    (SELECT 'test_' prfx) B;
+    </pre>
+    <br>
+    <h2>Copy tables with prefix</h2>
+    <pre class="code">
+SELECT
+    CONCAT('CREATE TABLE ',db,'.',prfx,tb,' LIKE ',db,'.',tb,';', -- copy structure
+    'INSERT INTO ',db,'.',prfx,tb,' SELECT * FROM ',db,'.',tb,';') -- copy data
+FROM
+    (SELECT table_schema db,table_name tb
+     FROM information_schema.tables WHERE
+     table_schema in ('tvkarpaty')
+    ) A,
+    (SELECT 'test_' prfx) B;
+    </pre>
+    <br>
+    <h2>Limited sub query</h2>
+    <pre class="code">
+        SELECT ad.id, ad.name, ad.price, p.link, r.name as region
+        FROM (
+            SELECT id, name, page_id, price, region_id
+            FROM mod_ad
+            WHERE active &gt; 0
+            LIMIT 0,9
+        ) ad
+        LEFT JOIN pages p ON ad.page_id=p.page_id
+        LEFT JOIN locality r ON ad.region_id=r.id;
+        ORDER BY ad.id DESC;
+    </pre>
+    <br>
+</div>
+</body>
+</html>

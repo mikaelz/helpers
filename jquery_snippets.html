@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>jQuery snippets</title>
+	<style media="screen">
+		body {
+			margin-left: 20px
+		}
+		.code {
+			background: #f1f1f1;
+			border: 1px solid #ccc;
+			font-size: 110%;
+			padding: 15px 5px 0 5px;
+			width: 96%;
+		}
+	</style>
+</head>
+<body>
+	<h1>jQuery snippets</h1>
+	<h2>AJAX</h2>
+	<pre class="code">
+	$.ajax({
+	  url: 'send.php',
+	  data: 'item='+email,
+	  dataType: 'json|html|script|text',
+	  success: function(resp) {
+		alert(resp);
+	  }
+	});
+	</pre>
+	<br>
+    <h2>Include script</h2>
+	<pre class="code">
+    $.getScript( base_url + '/include/jquery/plugin.js', function() {
+        // code
+    });
+	</pre>
+    <br>
+    <h2>Update URL GET param</h2>
+    <pre class="code">
+        function updateQueryStringParam(uri, key, value) {
+            var re = new RegExp("([?|&amp;])" + key + "=.*?(&amp;|$)", "i");
+            separator = uri.indexOf('?') !== -1 ? "&amp;" : "?";
+            if (uri.match(re)) {
+                return uri.replace(re, '$1' + key + "=" + value + '$2');
+            }
+            else {
+                return uri + separator + key + "=" + value;
+            }
+        }
+
+        window.location = updateQueryStringParam(window.location.href, 'get_param', value);
+    </pre>
+    <br>
+	<h2>Hide input value on focus</h2>
+    <pre class="code">
+    $('input:text').each(function(){
+        var txtval = $(this).val();
+        $(this).focus(function(){
+            if($(this).val() == txtval){
+                $(this).val('')
+            }
+        });
+        $(this).blur(function(){
+            if($(this).val() == ""){
+                $(this).val(txtval);
+            }
+        });
+    });
+    </pre>
+    <br>
+	<h2>Validation alert error count</h2>
+	<pre class="code">
+	$("#form_id").validate({
+		invalidHandler: function(form, validator) {
+		  var errors = validator.numberOfInvalids();
+		  if (errors) {
+			var message = errors == 1
+			  ? 'Vynechali ste položku. Prosím vráťte sa a opravte zvýraznenú položku.'
+			  : 'Počet vynechaných položiek: ' + errors +
+				'. Prosím vráťte sa a opravte zvýraznené položky.';
+			alert(message);
+		  }
+		},
+		rules: {
+			name: {
+				minlength: 8,
+				required: true,
+				maxlength: 32
+			},
+			password: {
+				minlength: 8,
+				required: true,
+				maxlength: 12
+			}
+		}
+	});
+	</pre>
+	<br>
+	<h2>Mouseover</h2>
+    <pre class="code">
+    $('.toggle').on({
+        mouseenter: function(){
+            $(this).show();
+        },
+        mouseleave: function(){
+            $(this).hide();
+        }
+    });
+    </pre>
+	<br>
+    <h2>Timed img chager</h2>
+    <pre class="code">
+    function chbanner() {
+        var id = $('.active').data('id');
+            id = id + 1,
+            id = id == 6 ? 1 : id;
+        $('.frontpagebanner').addClass('hide').removeClass('active');
+        $('#banner'+id).addClass('active').removeClass('hide');
+        setTimeout('chbanner()', 3000);
+    }
+
+    setTimeout('chbanner()', 3000);
+    
+    &lt;div id="banner1" class="frontpagebanner active" data-id="1"&gt;
+        &lt;img src="" alt=""/&gt;
+    &lt;/div&gt;
+    &lt;div id="banner2" class="frontpagebanner hide" data-id="2"&gt;
+        &lt;img src="" alt=""/&gt;
+    &lt;/div&gt;
+    </pre>
+
+	<h2>Datepicker with SK language</h2>
+	<pre class="code">
+	$.datepicker.regional['sk'] = {
+		closeText: 'Zavrieť',
+		prevText: '&#x3c;Predchádzajúci',
+		nextText: 'Nasledujúci&#x3e;',
+		currentText: 'Dnes',
+		monthNames: ['Január','Február','Marec','Apríl','Máj','Jún',
+		'Júl','August','September','Október','November','December'],
+		monthNamesShort: ['Jan','Feb','Mar','Apr','Máj','Jún',
+		'Júl','Aug','Sep','Okt','Nov','Dec'],
+		dayNames: ['Nedeľa','Pondelok','Utorok','Streda','Štvrtok','Piatok','Sobota'],
+		dayNamesShort: ['Ned','Pon','Uto','Str','Štv','Pia','Sob'],
+		dayNamesMin: ['Ne','Po','Ut','St','Št','Pia','So'],
+		weekHeader: 'Ty',
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''};
+	$.datepicker.setDefaults($.datepicker.regional['sk']);
+
+    $(".datepick").datepicker({
+        dateFormat: 'dd.mm.yy',
+        minDate: '-1m',
+        maxDate: '+1m',
+        showOn: 'button',
+        buttonImage: base_url + '/media/icon_calendar.png',
+		buttonImageOnly: true,
+		buttonText: 'Zobraziť kalendár'
+    });
+	</pre>
+	<br>
+</body>
+</html>
